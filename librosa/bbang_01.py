@@ -210,4 +210,3 @@ plt.title('Chroma Frequencies')
 librosa.display.specshow(chromagram, x_axis='time', y_axis='chroma', hop_length=512)
 plt.colorbar()
 plt.show()
-
