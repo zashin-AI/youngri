@@ -40,16 +40,17 @@ print('오디오의 길이(초): %.2f' % (len(y)/sr))
 
 # 파라미터 해석
 # librosa.feature.spectral_flatness(
-# y=None                >> 오디오의 시간에 따른 데이터
-# , S=None              >> 
-# , n_fft=2048
-# , hop_length=512
-# , win_length=None
-# , window='hann'
-# , center=True
-# , pad_mode='reflect'
-# , amin=1e-10
-# , power=2.0
+# y=None                  >> 오디오의 시간에 따른 데이터
+# , S=None                >> 미리 스펙토그램으로 계산한 y
+# , n_fft=2048            >> fast Fourier transform(FFT)를 할 window 크기
+# , hop_length=512        >> n_fft로 잘라 SFTF작업을 하며 겹쳐지는 길이 대체로 n_fft/4 이다.
+# , win_length=None       >> window()에 의해 오디오에 만들어질 각 윈도우의 길이(대체로 n_fft와 같다.)
+# , window='hann'         >> 오디오를 잘라서 변환할 때 어떤 윈도우 방법을 쓸지(scipy에서 확인)
+# , center=True           >> True이면 y[t * hop_length]가 중심이 되도록 y를 패딩하고 
+#                         >> False이면 y[t * hop_length]에서 시작한다.
+# , pad_mode='reflect'    >> center=True이면 가장자리에 하고 default는 reflect패딩을 사용한다.
+# , amin=1e-10            >> S에 대한 최소 임계값 (= 수치 안정성을 위해 노이즈 층을 추가)
+# , power=2.0             >> 스펙토그램 규모에 대한 지수. 1일떄는 energy, 2일때는 power. Power spectrogram은 일반적으로 spectral flatness 계산에 사용된다.
 # )
 
 # ----------------------------------------------------------------
