@@ -15,8 +15,13 @@ from librosa.feature import poly_features
 # C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac
 # 저희는 방금 소개받은 것 처럼 의사구요 여기가 저희 진료실입니다
 
-y, sr = librosa.load('C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac'
-                    , sr = 22050)
+filename = 'testvoice'
+filegender = '_M2'
+filetype = '.wav'
+sample_directory = 'C:/nmb/data/teamvoice/'
+sample_path = sample_directory + filename + filegender + filetype
+
+y, sr = librosa.load(sample_path, sr=22050)
 
 print('len(y): ', len(y))
 print('SR 1초당 샘플의 개수: %d' % sr)
@@ -78,9 +83,10 @@ fig, ax = plt.subplots(nrows=2, sharex=True)
 img1 = librosa.display.specshow(librosa.amplitude_to_db(S, ref=np.max),
                                 y_axis='log', x_axis='time', ax=ax[0])
 fig.colorbar(img1, ax=[ax[0]], format='%+2.0f dB')
-ax[0].set(title='Power Spectrogram')
+ax[0].set(title='Power Spectrogram'+'_'+ filegender)
 ax[0].label_outer()
 img2 = librosa.display.specshow(contrast, x_axis='time', ax=ax[1])
 fig.colorbar(img2, ax=[ax[1]])
-ax[1].set(ylabel='Frequency bands', title='Spectral contrast')
+ax[1].set(ylabel='Frequency bands', title='Spectral contrast'+'_'+ filegender)
 plt.show()
+

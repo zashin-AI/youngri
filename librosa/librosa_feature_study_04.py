@@ -12,13 +12,14 @@ from librosa.feature import poly_features
 
 # ----------------------------------------------------------------
 # 음성 불러오기
-# C:/nmb/data/pansori/67CV7J6E7Iic/ZBNO2Drz36c/67CV7J6E7Iic-ZBNO2Drz36c-0027.flac
-# 그 딸을 너무나 사랑했을겁니다
-# C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac
-# 저희는 방금 소개받은 것 처럼 의사구요 여기가 저희 진료실입니다
 
-y, sr = librosa.load('C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac'
-                    , sr = 22050)
+filename = 'testvoice'
+filegender = '_F2'
+filetype = '.wav'
+sample_directory = 'C:/nmb/data/teamvoice/'
+sample_path = sample_directory + filename + filegender + filetype
+
+y, sr = librosa.load(sample_path, sr=22050)
 
 print('len(y): ', len(y))
 print('SR 1초당 샘플의 개수: %d' % sr)
@@ -60,7 +61,7 @@ print('tonnetz: ', tonnetz)
 fig, ax = plt.subplots(nrows=2, sharex=True)
 img1 = librosa.display.specshow(tonnetz,
                                 y_axis='tonnetz', x_axis='time', ax=ax[0])
-ax[0].set(title='Tonal Centroids (Tonnetz)')
+ax[0].set(title='Tonal Centroids (Tonnetz)'+'_'+ filegender)
 ax[0].label_outer()
 img2 = librosa.display.specshow(librosa.feature.chroma_cqt(y, sr=sr),
                                 y_axis='chroma', x_axis='time', ax=ax[1])

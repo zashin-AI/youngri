@@ -17,8 +17,13 @@ from librosa.feature import poly_features
 # C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac
 # 저희는 방금 소개받은 것 처럼 의사구요 여기가 저희 진료실입니다
 
-y, sr = librosa.load('C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac'
-                    , sr = 22050)
+filename = 'testvoice'
+filegender = '_M2'
+filetype = '.wav'
+sample_directory = 'C:/nmb/data/teamvoice/'
+sample_path = sample_directory + filename + filegender + filetype
+
+y, sr = librosa.load(sample_path, sr=22050)
 
 print('len(y): ', len(y))
 print('SR 1초당 샘플의 개수: %d' % sr)
@@ -58,7 +63,13 @@ print('오디오의 길이(초): %.2f' % (len(y)/sr))
 # 적용
 
 # 스펙토그램 변환해서 적용
-S, phase = librosa.magphase(librosa.stft(y))
+# S, phase = librosa.magphase(librosa.stft(y))
+
+#------
+# 멜 스펙토그램으로 주기!!!
+S = librosa.feature.melspectrogram(y, sr=sr, n_fft=2084, hop_length=512)
+#------
+
 # roll_percent=0.85 (default)로 적용
 rolloff = librosa.feature.spectral_rolloff(S=S, sr=sr)
 print(rolloff)
@@ -67,6 +78,8 @@ rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, roll_percent=0.95)
 print(rolloff)
 # roll_percent=0.01로 적용
 rolloff_min = librosa.feature.spectral_rolloff(y=y, sr=sr, roll_percent=0.01)
+# roll_percent=0.5로 적용
+rolloff_mid = librosa.feature.spectral_rolloff(y=y, sr=sr, roll_percent=0.5)
 
 # 그래프 그리기
 import matplotlib.pyplot as plt
@@ -76,6 +89,8 @@ librosa.display.specshow(librosa.amplitude_to_db(S, ref=np.max),
 ax.plot(librosa.times_like(rolloff), rolloff[0], label='Roll-off frequency (0.95)')
 ax.plot(librosa.times_like(rolloff), rolloff_min[0], color='w',
         label='Roll-off frequency (0.01)')
+ax.plot(librosa.times_like(rolloff), rolloff_mid[0], label='Roll-off frequency (0.5)', color='r')
+
 ax.legend(loc='lower right')
-ax.set(title='log Power spectrogram')
+ax.set(title='log Power spectrogram'+'_'+ filegender)
 plt.show()

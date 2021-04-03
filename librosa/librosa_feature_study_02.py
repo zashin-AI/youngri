@@ -17,8 +17,13 @@ from librosa.feature import poly_features
 # C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac
 # 저희는 방금 소개받은 것 처럼 의사구요 여기가 저희 진료실입니다
 
-y, sr = librosa.load('C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac'
-                    , sr = 22050)
+filename = 'testvoice'
+filegender = '_M2'
+filetype = '.wav'
+sample_directory = 'C:/nmb/data/teamvoice/'
+sample_path = sample_directory + filename + filegender + filetype
+
+y, sr = librosa.load(sample_path, sr=22050)
 
 print('len(y): ', len(y))
 print('SR 1초당 샘플의 개수: %d' % sr)
@@ -67,3 +72,12 @@ print('flatness한 y.shape: ', flatness.shape, '\nflatness한 y값: \n', flatnes
 #  [-0.00641101 -0.01347595 -0.01144939 ... -0.00653087 -0.00822797 -0.00366781]
 # flatness한 y값:
 #  [[2.79141571e-02 2.69821137e-02 ... 1.28165558e-02 2.56172828e-02]]
+
+flatness = flatness.reshape(216,)
+t = np.linspace(0, 110250, 110250)
+
+plt.figure(figsize=(10, 4))
+plt.plot(t, y)
+plt.plot(flatness)
+plt.title('spectral_flatness'+'_'+ filegender)
+plt.show()
