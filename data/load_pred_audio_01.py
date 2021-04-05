@@ -21,3 +21,5 @@ for file in files:
     pred_mels = librosa.amplitude_to_db(mels, ref=np.max)
     pred_mels = pred_mels.reshape(1, pred_mels.shape[0], pred_mels.shape[1])
     print(pred_mels.shape)
+
+# 쉐잎 잘 나와서 적용함~
