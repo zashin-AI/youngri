@@ -45,8 +45,8 @@ import librosa.display
 plt.figure(figsize=(10, 4))
 plt.title('2d sound wave graph')
 librosa.display.waveplot(y=y, sr=sr)
-# librosa.display.waveplot(y=y, sr=sr, max_points=50000.0, x_axis='time', offset=0.0, max_sr=1000, ax=None)
-# plt.show()
+librosa.display.waveplot(y=y, sr=sr, max_points=50000.0, x_axis='time', offset=0.0, max_sr=1000, ax=None)
+plt.show()
 
 # ====================================
 # 2) Fourier Transform
