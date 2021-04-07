@@ -92,7 +92,7 @@ files = librosa.util.find_files(pred_pathAudio, ext=['wav'])
 files = np.asarray(files)
 for file in files:   
     y, sr = librosa.load(file, sr=22050) 
-    mfccs = librosa.feature.mfcc(y, sr=sr)
+    mfccs = librosa.feature.mfcc(y, sr=sr, n_mfcc=20)
     pred_mfccs = normalize(mfccs, axis=1)
     pred_mfccs = pred_mfccs.reshape(1, pred_mfccs.shape[0], pred_mfccs.shape[1])
     y_pred = model.predict(pred_mfccs)

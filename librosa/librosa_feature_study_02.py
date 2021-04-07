@@ -17,17 +17,15 @@ from librosa.feature import poly_features
 # C:/nmb/data/pansori/7KCc6rmA7KCV/un4qbATrmx8/7KCc6rmA7KCV-un4qbATrmx8-0001.flac
 # 저희는 방금 소개받은 것 처럼 의사구요 여기가 저희 진료실입니다
 
-filename = 'testvoice'
-filegender = '_M2'
-filetype = '.wav'
-sample_directory = 'C:/nmb/data/teamvoice/'
-sample_path = sample_directory + filename + filegender + filetype
 
-y, sr = librosa.load(sample_path, sr=22050)
+f_sample_path = 'C:/nmb/data/teamvoice/testvoice_F2.wav'
+m_sample_path = 'C:/nmb/data/teamvoice/testvoice_M2.wav'
+f_y, sr = librosa.load(f_sample_path, sr=22050)
+m_y, sr = librosa.load(m_sample_path, sr=22050)
 
-print('len(y): ', len(y))
-print('SR 1초당 샘플의 개수: %d' % sr)
-print('오디오의 길이(초): %.2f' % (len(y)/sr))
+# print('len(y): ', len(y))
+# print('SR 1초당 샘플의 개수: %d' % sr)
+# print('오디오의 길이(초): %.2f' % (len(y)/sr))
 # len(y):  110250
 # SR 1초당 샘플의 개수: 22050
 # 오디오의 길이(초): 5.00
@@ -60,24 +58,28 @@ print('오디오의 길이(초): %.2f' % (len(y)/sr))
 
 # ----------------------------------------------------------------
 # 적용
+f_flatness = librosa.feature.spectral_flatness(y=f_y)
+m_flatness = librosa.feature.spectral_flatness(y=m_y)
 
-flatness = librosa.feature.spectral_flatness(y=y)
-print('원래 y.shape: ', y.shape, '\n원래 y값: \n', y)
-print('flatness한 y.shape: ', flatness.shape, '\nflatness한 y값: \n', flatness)
-
-# 원래 y.shape:  (110250,)
-# flatness한 y.shape:  (1, 216)
 
 # 원래 y값:
 #  [-0.00641101 -0.01347595 -0.01144939 ... -0.00653087 -0.00822797 -0.00366781]
 # flatness한 y값:
 #  [[2.79141571e-02 2.69821137e-02 ... 1.28165558e-02 2.56172828e-02]]
 
-flatness = flatness.reshape(216,)
-t = np.linspace(0, 110250, 110250)
+f_flatness = f_flatness.reshape(216,)
+m_flatness = m_flatness.reshape(216,)
 
-plt.figure(figsize=(10, 4))
-plt.plot(t, y)
-plt.plot(flatness)
-plt.title('spectral_flatness'+'_'+ filegender)
+plt.figure(figsize=(12, 4))
+plt.subplot(1,2,1)
+plt.title('spectral_flatness_F2')
+plt.xlabel('each frame')
+plt.ylabel('spectral_flatness')
+plt.plot(f_flatness)
+
+plt.subplot(1,2,2)
+plt.title('spectral_flatness_M2')
+plt.xlabel('each frame')
+plt.ylabel('spectral_flatness')
+plt.plot(m_flatness)
 plt.show()
