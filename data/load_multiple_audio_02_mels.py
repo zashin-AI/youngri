@@ -22,11 +22,11 @@ for file in files:
         mels = librosa.feature.melspectrogram(y, sr=sr, n_fft=512, hop_length=128)
         mels = librosa.amplitude_to_db(mels, ref=np.max)
 
-        plt.figure(figsize=(10, 4))
-        plt.title('Mel Spectogram')
-        librosa.display.specshow(mels, sr=sr, hop_length=512, x_axis='time', y_axis='log')
-        plt.colorbar()
-        plt.show()
+        # plt.figure(figsize=(10, 4))
+        # plt.title('Mel Spectogram')
+        # librosa.display.specshow(mels, sr=sr, hop_length=512, x_axis='time', y_axis='log')
+        # plt.colorbar()
+        # plt.show()
 
         dataset.append(mels)
         label.append(1)
@@ -36,20 +36,7 @@ label = np.array(label)
 print(dataset.shape)
 print(label.shape)
 
-# np.save('C:/nmb/data/npy/pansori_2s_M_test_mels.npy', arr=dataset)
-# np.save('C:/nmb/data/npy/pansori_2s_M_test_label_mels.npy', arr=label)
+np.save('C:/nmb/data/npy/M_data_mel.npy', arr=dataset)
+np.save('C:/nmb/data/npy/M_label_mel.npy', arr=label)
 print('=====save done=====')
 # ------------------------------------------------------
-# F_mfccs
-# (545, 20, 216)
-# (545,)
-# F_mels
-# (545, 128, 862)
-# (545,)
-
-# M_mfccs
-# (528, 20, 216)
-# (528,)
-# M_mels
-# (528, 128, 862)
-# (528,)
