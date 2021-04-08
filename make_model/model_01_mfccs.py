@@ -16,10 +16,10 @@ def normalize(x, axis=0):
 
 
 # 데이터 불러오기
-f_ds = np.load('C:/nmb/data/npy/pansori_2s_F_test_mfccs.npy')
-f_lb = np.load('C:/nmb/data/npy/pansori_2s_F_test_label_mfccs.npy')
-m_ds = np.load('C:/nmb/data/npy/pansori_2s_M_test_mfccs.npy')
-m_lb = np.load('C:/nmb/data/npy/pansori_2s_M_test_label_mfccs.npy')
+f_ds = np.load('C:/nmb/nmb_data/npy/F_test_mfccs.npy')
+f_lb = np.load('C:/nmb/nmb_data/npy/F_test_label_mfccs.npy')
+m_ds = np.load('C:/nmb/nmb_data/npy/M_test_mfccs.npy')
+m_lb = np.load('C:/nmb/nmb_data/npy/M_test_label_mfccs.npy')
 # (1073, 20, 216)
 # (1073,)
 
@@ -36,8 +36,6 @@ print(y_train.shape)
 print(y_test.shape)
 
 # 모델 구성
-model = Sequential()
-
 def residual_block(x, filters, conv_num=3, activation="relu"):
     # Shortcut
     s = Conv1D(filters, 1, padding="same")(x)
@@ -72,22 +70,27 @@ model = build_model(x_train.shape[1:], 2)
 
 model.summary()
 
+# Compile the model using Adam's default learning rate
+model.compile(
+    optimizer="Adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
+)
+
 # 컴파일, 훈련
 model.compile(optimizer="Adam", loss="sparse_categorical_crossentropy", metrics=["acc"])
 stop = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True, verbose=1)
 lr = ReduceLROnPlateau(monitor='val_loss', vactor=0.5, patience=5, verbose=1)
-mcpath = 'C:/nmb/data/h5/conv1_model_01_mfccs.h5'
+mcpath = 'C:/nmb/nmb_data/h5/conv1_model_01_mfccs_2.h5'
 mc = ModelCheckpoint(mcpath, monitor='val_loss', verbose=1, save_best_only=True)
-history = model.fit(x_train, y_train, epochs=128, batch_size=32, validation_split=0.2, callbacks=[stop, lr, mc])
+# history = model.fit(x_train, y_train, epochs=128, batch_size=32, validation_split=0.2, callbacks=[stop, lr, mc])
 
 # --------------------------------------
 # 평가, 예측
-model.load_weights('C:/nmb/data/h5/conv1_model_01_mfccs.h5')
+model.load_weights('C:/nmb/nmb_data/h5/conv1_model_01_mfccs.h5')
 
 result = model.evaluate(x_test, y_test)
 print('loss: ', result[0]); print('acc: ', result[1])
 
-pred_pathAudio = 'C:/nmb/data/teamvoice_clear/'
+pred_pathAudio = 'C:/nmb/nmb_data/teamvoice_clear/'
 files = librosa.util.find_files(pred_pathAudio, ext=['wav'])
 files = np.asarray(files)
 for file in files:   
