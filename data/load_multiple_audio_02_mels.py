@@ -9,7 +9,7 @@ import librosa.display
 
 dataset = []
 label = []
-pathAudio = 'C:/nmb/data/ForM/F/'
+pathAudio = 'C:/nmb/nmb_data/ForM/F/'
 files = librosa.util.find_files(pathAudio, ext=['flac'])
 files = np.asarray(files)
 for file in files:
@@ -27,20 +27,7 @@ label = np.array(label)
 print(dataset.shape) # (545, 128, 862)
 print(label.shape) # (545,)
 
-np.save('C:/nmb/data/npy/F_test_mels.npy', arr=dataset)
-np.save('C:/nmb/data/npy/F_test_label_mels.npy', arr=label)
+np.save('C:/nmb/nmb_data/npy/F_test_mels.npy', arr=dataset)
+np.save('C:/nmb/nmb_data/npy/F_test_label_mels.npy', arr=label)
 print('=====save done=====')
 # ------------------------------------------------------
-# F_mfccs
-# (545, 20, 216)
-# (545,)
-# F_mels
-# (545, 128, 862)
-# (545,)
-
-# M_mfccs
-# (528, 20, 216)
-# (528,)
-# M_mels
-# (528, 128, 862)
-# (528,)
