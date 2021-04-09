@@ -9,7 +9,7 @@ import sklearn
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, load_model, Model
-from tensorflow.keras.layers import Dense, Conv1D, MaxPool1D, AveragePooling1D, Dropout, Activation, Flatten, Add, Input
+from tensorflow.keras.layers import Dense, Conv1D, MaxPool1D, AveragePooling1D, Dropout, Activation, Flatten, Add, Input, Concatenate
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
 def normalize(x, axis=0):
     return sklearn.preprocessing.minmax_scale(x, axis=axis)
@@ -44,7 +44,8 @@ def residual_block(x, filters, conv_num=3, activation="relu"):
         x = Conv1D(filters, 3, padding="same")(x)
         x = Activation(activation)(x)
     x = Conv1D(filters, 3, padding="same")(x)
-    x = Add()([x, s])
+    # x = Add()([x, s])
+    x= Concatenate(axis=1)([x,s])
     x = Activation(activation)(x)
     return MaxPool1D(pool_size=2, strides=1)(x)
 
@@ -63,7 +64,7 @@ def build_model(input_shape, num_classes):
     x = Dense(256, activation="relu")(x)
     x = Dense(128, activation="relu")(x)
 
-    outputs = Dense(num_classes, activation="softmax", name="output")(x)
+    outputs = Dense(num_classes, activation="sigmoid", name="output")(x)
 
     return Model(inputs=inputs, outputs=outputs)
 
@@ -71,13 +72,14 @@ model = build_model(x_train.shape[1:], 2)
 
 model.summary()
 
+'''
 # 컴파일, 훈련
 model.compile(optimizer="Adam", loss="sparse_categorical_crossentropy", metrics=["acc"])
 stop = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True, verbose=1)
 lr = ReduceLROnPlateau(monitor='val_loss', vactor=0.5, patience=5, verbose=1)
 mcpath = 'C:/nmb/data/h5/conv1_model_01_mels.h5'
 mc = ModelCheckpoint(mcpath, monitor='val_loss', verbose=1, save_best_only=True)
-# history = model.fit(x_train, y_train, epochs=128, batch_size=32, validation_split=0.2, callbacks=[stop, lr, mc])
+history = model.fit(x_train, y_train, epochs=128, batch_size=32, validation_split=0.2, callbacks=[stop, lr, mc])
 
 # --------------------------------------
 # 평가, 예측
@@ -130,3 +132,5 @@ for file in files:
 # C:\nmb\data\teamvoice_clear\testvoice_M1(clear).wav 99.98842477798462 %의 확률로 남자입니다.
 # C:\nmb\data\teamvoice_clear\testvoice_M2(clear).wav 99.38406944274902 %의 확률로 남자입니다.
 # C:\nmb\data\teamvoice_clear\testvoice_M2_low(clear).wav 99.9998927116394 %의 확률로 남자입니다.
+
+'''

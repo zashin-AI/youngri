@@ -76,7 +76,7 @@ import librosa.display
 # Short-time Fourier transform 으로 변환
 S = np.abs(librosa.stft(y))
 # 특성 추출 적용
-contrast = librosa.feature.spectral_contrast(S=S, sr=sr)
+contrast = librosa.feature.spectral_contrast(S=S, sr=sr, n_bands=5)
 
 # 그래프로 그리자
 fig, ax = plt.subplots(nrows=2, sharex=True)
