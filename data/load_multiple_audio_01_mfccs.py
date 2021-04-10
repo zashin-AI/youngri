@@ -11,7 +11,7 @@ def normalize(x, axis=0):
 
 dataset = []
 label = []
-pathAudio = 'C:/nmb/nmb_data/ForM/M/'
+pathAudio = 'C:/nmb/nmb_data/ForM/F/'
 files = librosa.util.find_files(pathAudio, ext=['flac'])
 files = np.asarray(files)
 for file in files:
@@ -23,15 +23,15 @@ for file in files:
         mfccs = normalize(mfccs, axis=1)
         # print('mfccs: ', mfccs.shape)
         dataset.append(mfccs)
-        label.append(1)
+        label.append(0)
 
 dataset = np.array(dataset)
 label = np.array(label)
 print(dataset.shape) # (545, 20, 216)
 print(label.shape) # (545,)
 
-np.save('C:/nmb/nmb_data/npy/M_test_mfccs.npy', arr=dataset)
-np.save('C:/nmb/nmb_data/npy/M_test_label_mfccs.npy', arr=label)
+np.save('C:/nmb/nmb_data/npy/F_test_mfccs.npy', arr=dataset)
+np.save('C:/nmb/nmb_data/npy/F_test_label_mfccs.npy', arr=label)
 # print('=====save done=====')
 # ------------------------------------------------------
 # F_mfccs
