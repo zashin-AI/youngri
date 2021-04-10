@@ -1,4 +1,6 @@
-# https://keras.io/examples/audio/speaker_recognition_using_cnn/
+# (1차 진행) mel과 mfccs 돌려서 확인하기
+
+#  https://keras.io/examples/audio/speaker_recognition_using_cnn/
 # 참고해서 모델 만들기
 
 # MFCCs 를 거친 데이터를 인풋으로!!!
