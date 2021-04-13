@@ -9,9 +9,9 @@ import os
 # 1) flac 오디오 wav로 바꿔 저장하기 -----------------------------------------
 # 어느 폴더에서 끌어올건지 지정
 who1 = 'F3/'
-pathAudio1 = 'C:/nmb/nmb_data/F1F2F3/'+ who1
+pathaudio1 = 'C:/nmb/nmb_data/F1F2F3/'+ who1
 # util.find.files로 그 안의 모든 파일 불러오기
-infiles = librosa.util.find_files(pathAudio1)
+infiles = librosa.util.find_files(pathaudio1)
 # 저장할 파일 dir 지정
 save_dir = 'C:/nmb/nmb_data/F1F2F3/F3_to_wave/'
 
@@ -32,8 +32,8 @@ print('==== done(1) ====')
 
 # 2) wav 파일 한 번에 이어서 저장하기 -----------------------------------------
 who2 = 'F3_to_wave/'
-pathAudio2 = 'C:/nmb/nmb_data/F1F2F3/'+ who2
-infiles = librosa.util.find_files(pathAudio2)
+pathaudio2 = 'C:/nmb/nmb_data/F1F2F3/'+ who2
+infiles = librosa.util.find_files(pathaudio2)
 outfile = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
 
 wavs = [AudioSegment.from_wav(wav) for wav in infiles]
