@@ -1,3 +1,5 @@
+# 국립 국어원 발화 말뭉치의 여성 화자를 화자별, 토픽9만 합쳐보자!!
+
 import librosa
 from pydub import AudioSegment
 import soundfile as sf
@@ -17,8 +19,10 @@ import_test()
 # out_dir(wav파일을 합쳐서 저장할 경로+파일명까지) = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
 
 # 1) wav일 때
-path_wav = 'C:/nmb/nmb_data/audiolentest/fz/'
-path_out = 'C:/nmb/nmb_data/audiolentest/fz_len_test.wav'
+filename = 'fz06'
+
+path_wav = 'C:/Users/lemon/OneDrive/바탕 화면/여성/' + filename
+path_out = 'C:/nmb/nmb_data/korea_corpus/korea_corpus_female/' + filename + '.wav'
 voice_sum(form='wav', audio_dir=path_wav, save_dir=None, out_dir=path_out)
 # 잘 되는 것 확인!
 
