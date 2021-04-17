@@ -53,15 +53,15 @@ for file in infiles:
 
 # --------------------------------------------------------------
 # 적용해보자!
-audio_dir = 'C:/Users/Admin/Desktop/new/'
+audio_dir = 'C:/Users/Admin/Desktop/open_slr_m_sum/'
 infiles = librosa.util.find_files(audio_dir)
 
 count = 0
 for file in infiles:
     origin_dir = infiles[count]
     threshold = 5000
-    out_dir = 'C:/Users/Admin/Desktop/new_1m/'
-    end_threshold = 60000
+    out_dir = 'C:/Users/Admin/Desktop/open_slr_m_2m/'
+    end_threshold = (1*60*2)*1000
     voice_split_1m(origin_dir=origin_dir, threshold=threshold, end_threshold =end_threshold,out_dir=out_dir)
     count += 1
 
