@@ -12,13 +12,16 @@ def import_test():
 # ---------------------------------------------------------------
 # voice_sum: 오디오를 한 wav 파일로 합쳐서 저장하기
 
-# example
-# form(파일 형식): 'wav' or 'flac'
-# audio_dir(여러 오디오가 있는 파일경로) = 'C:/nmb/nmb_data/F1F2F3/F3/'
-# save_dir(flac일 경우 wav파일로 저장할 경로) = 'C:/nmb/nmb_data/F1F2F3/F3_to_wave/'
-# out_dir(wav파일을 합쳐서 저장할 경로+파일명) = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
-
 def voice_sum(form, audio_dir, save_dir, out_dir):
+
+    '''
+    Args : 
+        voice_sum 함수 : 오디오를 한 wav 파일로 합쳐서 저장하기
+        form(파일 형식): 'wav' or 'flac'
+        audio_dir(여러 오디오가 있는 파일경로) = 'C:/nmb/nmb_data/F1F2F3/F3/'
+        save_dir(flac일 경우 wav파일로 저장할 경로) = 'C:/nmb/nmb_data/F1F2F3/F3_to_wave/'
+        out_dir(wav파일을 합쳐서 저장할 경로+파일명) = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
+    '''
     if form =='flac':
         infiles = librosa.util.find_files(audio_dir)
         for infile in infiles:
@@ -57,12 +60,16 @@ def voice_sum(form, audio_dir, save_dir, out_dir):
 # ---------------------------------------------------------------
 # voice_split: 하나로 합쳐진 wav 파일을 5초씩 잘라서 dataset으로 만들기
 
-# **** example ****
-# origin_dir(하나의 wav파일이 있는 경로+파일명) = 'D:/nmb_test/test_sum/test_01_wav_sum.wav'
-# threshold(몇초씩 자를지 5초는 5000) = 5000
-# out_dir(5초씩 잘려진 wav 파일을 저장할 경로) = 'D:/nmb_test/test_split/'
-
 def voice_split(origin_dir, threshold, out_dir):
+    
+    '''
+    Args : 
+        voice_split 함수: 하나로 합쳐진 wav 파일을 5초씩 잘라서 dataset으로 만들기
+        origin_dir(하나의 wav파일이 있는 경로+파일명) = 'D:/nmb_test/test_sum/test_01_wav_sum.wav'
+        threshold(몇초씩 자를지 5초는 5000) = 5000
+        out_dir(5초씩 잘려진 wav 파일을 저장할 경로) = 'D:/nmb_test/test_split/'
+    '''
+
     audio = AudioSegment.from_file(origin_dir)
     _, w_id = os.path.split(origin_dir)
     w_id = w_id[:-4]
@@ -82,6 +89,8 @@ def voice_split(origin_dir, threshold, out_dir):
         counter += 1
         start += threshold
     print('==== wav split done ====')
+
+
 
 # 5초씩 12개 총 1분으로 자르기 위해 end_thresholdf를 만든 함수
 def voice_split_1m(origin_dir, threshold, end_threshold, out_dir):
@@ -104,4 +113,27 @@ def voice_split_1m(origin_dir, threshold, end_threshold, out_dir):
         chunk.export(filename, format='wav')
         counter += 1
         start += threshold
+    print('==== wav split done ====')
+
+
+
+# 원하는 초만 자르고 싶어서 만든 함수
+def voice_split_term(origin_dir, out_dir, start, end):
+    '''
+    Args :
+        voice_split_term : 음성 파일에서 원하는 부분을 추출해주는 함수
+        origin_dir : 파일 불러올 경로
+        out_dir : 저장할 경로
+        start : 시작하는 부분(msec)
+        end : 끝나는 부분(msec)
+    '''
+    audio = AudioSegment.from_file(origin_dir)
+    _, w_id = os.path.split(origin_dir)
+    w_id = w_id[:-4]
+    start = start
+    end = end
+    print(start, end)
+    chunk = audio[start:end]
+    filename = out_dir + w_id + '.wav'
+    chunk.export(filename, format='wav')
     print('==== wav split done ====')
