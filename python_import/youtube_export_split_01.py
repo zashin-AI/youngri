@@ -12,12 +12,12 @@ import os.path
 # --------------------------------------------------------------------------------------------
 # 유튜브 저장하기
 output_path = 'C:/nmb/nmb_data/youtube/'
-filename = 'm19'
+filename = 'f41'
 
 '''
 # 먼저 실행 1번
 # 유튜브 전용 인스턴스 생성
-par = 'https://youtu.be/X5m1M3UK6zE'
+par = 'https://youtu.be/yjdEyfNN8vc'
 yt = YouTube(par)
 yt.streams.filter()
 
@@ -43,7 +43,6 @@ from voice_handling import voice_split_term
 
 origin_dir = output_path+ filename + '.wav'
 out_dir = output_path
-start = 0
+start = 51*1000
 end = start + 5000
 voice_split_term(origin_dir=origin_dir, out_dir=out_dir, start=start, end=end)
-
