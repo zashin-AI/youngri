@@ -10,10 +10,10 @@
 1) 해커톤
 https://github.com/kkimlee/NLU-with-STT/tree/main/%EA%B9%80%EB%AF%BC%ED%83%9C%20NLU
 2) kospeech
-3) speech recognition
+3) speech recognition (라이브러리에서 구글만 써봄)
+4) wav2letter++ (페이스북에 만들었다는데 C++언어로 쓴듯 파이썬 가능한지 확인)
 
 해볼 것!!
-https://github.com/flashlight/wav2letter
 https://speechpy.readthedocs.io/en/latest/intro/introductions.html
 
 
