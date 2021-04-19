@@ -1,0 +1,22 @@
+해보자!
+
+# 우선 데이터를 만들자!
+1) 여성 아나운서 여러 문장
+2) 여성 깔끔한 여러 문장 음성(국립 국어원)
+3) 우리의 predict voice
+
+
+[ API ]
+1) 해커톤
+https://github.com/kkimlee/NLU-with-STT/tree/main/%EA%B9%80%EB%AF%BC%ED%83%9C%20NLU
+2) kospeech
+3) speech recognition
+
+해볼 것!!
+https://github.com/flashlight/wav2letter
+https://speechpy.readthedocs.io/en/latest/intro/introductions.html
+
+
+[ 성능 향상 ]
+1) end to end
+2) 디노이즈

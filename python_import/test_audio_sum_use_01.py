@@ -19,18 +19,16 @@ import_test()
 # out_dir(wav파일을 합쳐서 저장할 경로+파일명까지) = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
 
 # 1) wav일 때
-filename = 'fz06'
-
-path_wav = 'C:/Users/lemon/OneDrive/바탕 화면/여성/' + filename
-path_out = 'C:/nmb/nmb_data/korea_corpus/korea_corpus_female/' + filename + '.wav'
+path_wav = 'C:/nmb/nmb_data/channel_split/predict_fandm/'
+path_out = 'C:/nmb/nmb_data/channel_split/predict_fandm.wav'
 voice_sum(form='wav', audio_dir=path_wav, save_dir=None, out_dir=path_out)
 # 잘 되는 것 확인!
 
 '''
 # 2) flac일 때
-path_flac = 'D:/nmb_test/test_flac/'
-path_save = 'D:/nmb_test/test_flac_to_wav/'
-path_out = 'D:/nmb_test/test_sum/test_02_flac_to_wave_sum.wav'
+path_flac = 'C:/nmb/nmb_data/channel_split/pansori_fandm/'
+path_save = 'C:/nmb/nmb_data/channel_split/pansori_fandm_wav/'
+path_out = 'C:/nmb/nmb_data/channel_split/pansori_fandm.wav'
 voice_sum(form='flac', audio_dir=path_flac, save_dir=path_save, out_dir=path_out)
 # 잘 되는 것 확인!
 '''
