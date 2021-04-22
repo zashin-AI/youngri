@@ -1,4 +1,5 @@
 # pydub 에서 화자 쪼개기 가능???
+# 불가능 ^^
 
 from pydub import AudioSegment
 
