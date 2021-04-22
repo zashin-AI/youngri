@@ -3,7 +3,7 @@
 
 # m17 = 호동 (ㅇ)
 # m18 = 헨리 (ㅇ)
-# m19 = 영철
+# m19 = 영철 (ㅇ)
 
 from pytube import YouTube
 import glob

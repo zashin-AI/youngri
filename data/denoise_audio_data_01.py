@@ -4,8 +4,8 @@
 
 from noise_handling import denoise_tim
 
-load_dir = 'c:/nmb/nmb_data/audio_data/'
-out_dir = 'c:/nmb/nmb_data/audio_data_denoise/'
+load_dir = 'C:/nmb/nmb_data/audio_data/'
+out_dir = 'C:/nmb/nmb_data/STT voice/denoise/'
 
 denoise_tim(load_dir, out_dir, 5000, 15000, 512, 128, 512)
 
