@@ -4,6 +4,7 @@ import librosa
 from pydub import AudioSegment
 import soundfile as sf
 import os
+from pydub.silence import split_on_silence
 
 # 테스트 한번 불러서 출력하고 가져가세요~
 def import_test():
@@ -142,3 +143,51 @@ def voice_split_term(origin_dir, out_dir, start, end):
 # ---------------------------------------------------------------
 # split_silence : 오디오에서 묵음을 없애려고 만든 함수
 # 구조: 묵음 삭제하면서 오디오 자르기 > 잘라진 오디오 다시 합치기
+
+def split_silence(audio_dir, split_silence_dir, sum_dir) :
+    '''
+    Args : 
+        audio_dir : 여러 오디오('wav')가 있는 파일경로
+        split_silence_dir : 묵음 부분 마다 자른 오디오 파일을 저장할 파일 경로
+        sum_dir : 묵음 부분 마다 자른 오디오 파일을 합쳐서 저장할 파일경로
+    '''
+    # audio_dir에 있는 모든 파일을 가져온다
+    audio_dir = librosa.util.find_files(audio_dir, ext=['wav'])
+    
+    # 폴더 생성하기 함수 정의
+    def createFolder(directory):
+        try:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+        except OSError:
+            print('Error: Creating directory.' + directory)
+    
+    # audio_dir에 있는 모든 파일을 하나씩 불러와 묵음 제거하면서 따로 저장
+    for path in audio_dir:
+        # 패스의 오디오를 불러오기
+        sound_file = AudioSegment.from_wav(path)
+        # 파일 이름만 가져오기
+        _, w_id = os.path.split(path)
+        w_id = w_id[:-4]
+        # 가장 최소의 dbfs를 구해서 묵음 임계값 정하기
+        
+        # dbfs : 아날로그 db과는 다른 디지털에서의 db 단위, 0일 때가 최고 높은 레벨
+        dbfs = sound_file.dBFS
+        # 묵음 부분 마다 자르자
+        audio_chunks = split_on_silence(sound_file,  # 해당 파일
+        silence_thresh= dbfs - 16,                   # 이 임계값의 묵음이
+        min_silence_len=200,                         # 이정도의 길이면 자르는데
+        keep_silence=0)                              # 자를 때 나머지를 이만큼 주고
+
+        # 묵음을 기준으로 잘린 파일을 저장할 폴더 생성
+        createFolder(split_silence_dir + w_id)
+        # 저장하자
+        for i, chunk in enumerate(audio_chunks):
+            out_file = split_silence_dir + w_id + '/' + w_id + f'_{i}.wav'
+            chunk.export(out_file, format='wav')
+        
+        # 이 저장된 파일을 하나로 합치자
+        audio_dir = split_silence_dir + w_id + '/'
+        out_dir = sum_dir + w_id + '_silence_total.wav'
+        voice_sum(form='wav', audio_dir=audio_dir, save_dir=None, out_dir = out_dir)
+    print('==== split_silence done ====')
