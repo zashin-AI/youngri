@@ -20,7 +20,7 @@ import_test()
 # out_dir(wav파일을 합쳐서 저장할 경로+파일명까지) = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
 
 # ---------------------------------------------------------------
-'''
+
 # 폴더를 만들고 싶어유 ㅠㅠ > 만들었슈..ㅎ
 dir1 = 'C:/Users/Admin/Desktop/M_wav/'
 dir2 = np.arange(1, 42)
@@ -33,7 +33,7 @@ def createFolder(directory):
 
 for i in dir2:
     createFolder( dir1 + str(i) )
-'''
+
 '''
 # --------------------------------------------------------------
 # 2) flac일 때

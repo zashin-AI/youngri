@@ -42,7 +42,7 @@ def voice_sum(form, audio_dir, save_dir, out_dir):
         combined = wavs[0]
         # 1번부터 이어 붙이기
         for wav in wavs[1:]:
-            combined = combined.append(wav) 
+            combined = combined.append(wav, crossfade=0) 
         # out_dir 경로에 wav 형식으로 내보내기
         combined.export(out_dir, format='wav')
         print('==== wav sum done ====')
@@ -52,7 +52,7 @@ def voice_sum(form, audio_dir, save_dir, out_dir):
         wavs = [AudioSegment.from_wav(wav) for wav in infiles]
         combined = wavs[0]
         for wav in wavs[1:]:
-            combined = combined.append(wav) 
+            combined = combined.append(wav, crossfade=0) 
         combined.export(out_dir, format='wav')
         print('==== wav sum done ====')
 
@@ -137,3 +137,8 @@ def voice_split_term(origin_dir, out_dir, start, end):
     filename = out_dir + w_id + '.wav'
     chunk.export(filename, format='wav')
     print('==== wav split done ====')
+
+
+# ---------------------------------------------------------------
+# split_silence : 오디오에서 묵음을 없애려고 만든 함수
+# 구조: 묵음 삭제하면서 오디오 자르기 > 잘라진 오디오 다시 합치기
