@@ -21,3 +21,13 @@ split_silence(audio_dir=audio_dir, split_silence_dir=split_silence_dir, sum_dir=
 '''
 
 # 학원에서!
+# 여러 오디오('wav')가 있는 파일경로
+audio_dir = 'D:/nmb/nmb_data/open_slr/open_slr_m_sum/'
+# 묵음 부분 마다 자른 오디오 파일을 저장할 파일 경로(이 경로안에 새로운 파일을 만들어준다)
+split_silence_dir = 'D:/nmb/nmb_data/open_slr/open_slr_m_silence_split/'
+# 묵음 부분 마다 자른 오디오 파일을 합쳐서 저장할 파일경로
+sum_dir = 'D:/nmb/nmb_data/open_slr/open_slr_m_silence_split_sum/'
+
+split_silence(audio_dir=audio_dir, split_silence_dir=split_silence_dir, sum_dir=sum_dir)
+
+# korea_corpus 완료
