@@ -5,10 +5,10 @@ import os
 from voice_handling import voice_split_1m
 
  
-origin_dir = 'C:/nmb/nmb_data/korea_corpus/korea_corpus_f_slience_split_sum_denoises/'
+origin_dir = 'D:/nmb/nmb_data/open_slr/open_slr_m_silence_split_sum_denoise/'
 threshold = (1000)  # 1초씩
 end_threshold = (1000*120)  # 2분
-out_dir = 'C:/nmb/nmb_data/korea_corpus/korea_corpus_f_slience_split_sum_denoises_1s_2m/'
+out_dir = 'D:/nmb/nmb_data/open_slr/open_slr_m_silence_split_sum_denoise_1s_2m/'
 
 infiles = librosa.util.find_files(origin_dir)
 

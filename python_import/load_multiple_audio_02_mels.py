@@ -9,7 +9,7 @@ import librosa.display
 
 dataset = []
 label = []
-pathAudio = 'C:/nmb/nmb_data/korea_corpus/korea_corpus_f_slience_split_sum_denoises_1s_2m/'
+pathAudio = 'D:/nmb/nmb_data/open_slr/open_slr_m_silence_split_sum_denoise_1s_2m/'
 files = librosa.util.find_files(pathAudio, ext=['wav'])
 files = np.asarray(files)
 for file in files:
@@ -20,14 +20,14 @@ for file in files:
         mels = librosa.feature.melspectrogram(y, sr=sr, n_fft=512, hop_length=128, n_mels=128)
         mels = librosa.amplitude_to_db(mels, ref=np.max)
         dataset.append(mels)
-        label.append(0)
+        label.append(1)
 
 dataset = np.array(dataset)
 label = np.array(label)
 print(dataset.shape)
 print(label.shape)
 
-np.save('C:/nmb/nmb_data/npy/korea_corpus_f_slience_split_sum_denoises_1s_2m.npy', arr=dataset)
-np.save('C:/nmb/nmb_data/npy/korea_corpus_f_slience_split_sum_denoises_1s_2m_label.npy', arr=label)
+np.save('C:/nmb/nmb_data/npy/open_slr_m_silence_split_sum_denoise_1s_2m.npy', arr=dataset)
+np.save('C:/nmb/nmb_data/npy/open_slr_m_silence_split_sum_denoise_1s_2m_label.npy', arr=label)
 print('=====save done=====')
 # ------------------------------------------------------
