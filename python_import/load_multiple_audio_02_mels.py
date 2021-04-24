@@ -9,13 +9,13 @@ import librosa.display
 
 dataset = []
 label = []
-pathAudio = 'C:/nmb/nmb_data/ForM/F/'
-files = librosa.util.find_files(pathAudio, ext=['flac'])
+pathAudio = 'C:/nmb/nmb_data/korea_corpus/korea_corpus_f_slience_split_sum_denoises_1s_2m/'
+files = librosa.util.find_files(pathAudio, ext=['wav'])
 files = np.asarray(files)
 for file in files:
-    y, sr = librosa.load(file, sr=22050, duration=5.0)
+    y, sr = librosa.load(file, sr=22050, duration=1.0)
     length = (len(y) / sr)
-    if length < 5.0 : pass
+    if length < 1.0 : pass
     else:
         mels = librosa.feature.melspectrogram(y, sr=sr, n_fft=512, hop_length=128, n_mels=128)
         mels = librosa.amplitude_to_db(mels, ref=np.max)
@@ -24,10 +24,10 @@ for file in files:
 
 dataset = np.array(dataset)
 label = np.array(label)
-print(dataset.shape) # (545, 128, 862)
-print(label.shape) # (545,)
+print(dataset.shape)
+print(label.shape)
 
-np.save('C:/nmb/nmb_data/npy/F_test_mels.npy', arr=dataset)
-np.save('C:/nmb/nmb_data/npy/F_test_label_mels.npy', arr=label)
+np.save('C:/nmb/nmb_data/npy/korea_corpus_f_slience_split_sum_denoises_1s_2m.npy', arr=dataset)
+np.save('C:/nmb/nmb_data/npy/korea_corpus_f_slience_split_sum_denoises_1s_2m_label.npy', arr=label)
 print('=====save done=====')
 # ------------------------------------------------------
