@@ -35,7 +35,7 @@ for audio in infiles:
 
     # # 문장 분리해서 편하게 확인하기
     # print(w_id, ':')
-    # for sent in kss.split_sentences(checked_sent): print(sent)
+# for sent in kss.split_sentences(checked_sent): print(sent)
 
 '''
 test_01 : 
