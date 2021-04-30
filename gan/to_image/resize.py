@@ -4,10 +4,11 @@ from numpy.core.fromnumeric import resize
 
 
 X = np.load('C:/nmb/nmb_data/0418_balance_denoise_npy/denoise_balance_f_mels.npy')
+print(X.shape)
 
 x = np.resize(X[0], (28,28))
 print(x.shape)
-
+'''
 resize_list =[]
 for x in X:
     x = np.resize(x, (28,28))
@@ -41,3 +42,4 @@ save_img = ImageHelper()
 
 wide = np.load('C:/nmb/nmb_data/0418_balance_denoise_npy/denoise_balance_f_mels.npy')
 save_img.save_image(wide[50:75], 10, 'C:/nmb/gan/make_gan_04/original_img')
+'''
