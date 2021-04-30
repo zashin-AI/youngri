@@ -4,8 +4,8 @@
 
 from noise_handling import denoise_tim
 
-load_dir = 'D:/nmb/nmb_data/open_slr/open_slr_m_silence_split_sum/'
-out_dir = 'D:/nmb/nmb_data/open_slr/open_slr_m_silence_split_sum_denoise/'
+load_dir = 'C:/nmb/gan/audio/listen_me_1000_22144/'
+out_dir = 'C:/nmb/gan/audio/listen_me_1000_22144/denoise/'
 
 denoise_tim(load_dir, out_dir, 5000, 15000, 512, 128, 512)
 

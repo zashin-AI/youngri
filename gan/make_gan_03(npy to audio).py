@@ -7,10 +7,10 @@ import librosa
 import scipy.io.wavfile
 
 # 저장한 npy 불러오기
-mel = np.load('C:/nmb/gan/npy/total_999.npy')
+mel = np.load('C:/nmb/gan/npy/noise1000000_total00199.npy')
 print(mel.shape)
+print(mel)
 mel = mel.reshape(10, 128, 173)
-
 # 패스 지정하고 mel to audio를 저장
 path = 'C:/nmb/gan/audio/'
 
@@ -20,6 +20,6 @@ def save_wav (wav, path):
 
 for i in range(10):
     y = librosa.feature.inverse.mel_to_audio(mel[i], sr=22050, n_fft=512, hop_length=128)
-    save_wav(y, path + '999번_' + str(i) + '.wav')
+    save_wav(y, path + 'noise1000000_total00099_' + str(i) + '.wav')
 
 print('==== audio save done ====')
