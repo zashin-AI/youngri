@@ -19,8 +19,8 @@ import_test()
 # out_dir(wav파일을 합쳐서 저장할 경로+파일명까지) = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
 
 # 1) wav일 때
-path_wav = 'C:/nmb/nmb_data/channel_split/predict_fandm/'
-path_out = 'C:/nmb/nmb_data/channel_split/predict_fandm.wav'
+path_wav = 'C:/Users/lemon/OneDrive/바탕 화면/fm_5s_denoise/t18_denoise/'
+path_out = 'C:/Users/lemon/OneDrive/바탕 화면/fm_5s_denoise/korea_t18_fandm.wav'
 voice_sum(form='wav', audio_dir=path_wav, save_dir=None, out_dir=path_out)
 # 잘 되는 것 확인!
 
