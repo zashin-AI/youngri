@@ -2,6 +2,7 @@
 
 # 1점대로 다루기 여간 어려우니...2점대로 만들자
 # 01 파일 수정해서 작업중~
+# 집컴용
 
 import numpy as np
 from tensorflow.keras.layers import Dense, LeakyReLU, Dropout, Input
@@ -60,7 +61,7 @@ print(np.max(f_ds), np.min(f_ds))
 # Hyperparameters 설정값 지정
 
 # gan에 입력되는 noise에 대한 dimension
-NOISE_DIM = 10
+NOISE_DIM = 100
 
 # adam optimizer 정의, learning_rate = 0.0002, beta_1로 줍니다.
 # Vanilla Gan과 DCGAN에서 이렇게 셋팅을 해주는데
@@ -228,16 +229,16 @@ def visualize_training(epoch, d_losses, g_losses):
         plt.axis('off')
     plt.tight_layout()
     # plt.show()
-    plt.savefig('C:/nmb/gan_0504/visualize/'+ filename + '._{}.png'.format(str(epoch).zfill(5)), bbox_inches='tight')
+    plt.savefig('C:/nmb/gan_0504/visualize/'+ filename + '_{}.png'.format(str(epoch).zfill(5)), bbox_inches='tight')
 
 # ------------------------------------------------------------------------
 # 학습
 
 # 배치사이즈와 에폭 지정
-BATCH_SIZE = 30
-EPOCHS= 50
+BATCH_SIZE = 300
+EPOCHS= 10000
 
-filename = 'b30_e50_n10'
+filename = 'b300_e10000_n100'
 
 # discriminator와 gan 모델의 loss 측정을 위한 list
 d_losses = []
@@ -284,3 +285,13 @@ for epoch in range(1, EPOCHS + 1):
 end = datetime.now()
 time = end - start
 print("작업 시간 : " , time)  
+
+
+# ============================================
+# b30_e50_n10
+# epoch: 50, Discriminator Loss: 0.4683861070871353, Generator Loss: 1.844352056980133
+# 작업 시간 :  0:19:28.602522
+
+# b300_e1000_n500
+# epoch: 1000, Discriminator Loss: 0.5461969422101974, Generator Loss: 1.364785288333893
+# 작업 시간 :  1:41:21.006785
