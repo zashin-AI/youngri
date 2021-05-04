@@ -1,5 +1,6 @@
 # gan 직접 만들어보기
 # https://github.com/golbin/TensorFlow-Tutorials/blob/master/09%20-%20GAN/01%20-%20GAN.py
+# 튜닝중
 
 # 1점대로 돌리기
 import tensorflow.compat.v1 as tf
