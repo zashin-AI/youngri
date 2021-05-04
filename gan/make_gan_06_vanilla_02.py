@@ -1,6 +1,7 @@
 # https://teddylee777.github.io/tensorflow/vanilla-gan
 
 # 1점대로 다루기 여간 어려우니...2점대로 만들자
+# 01 파일 수정해서 작업중~
 
 import numpy as np
 from tensorflow.keras.layers import Dense, LeakyReLU, Dropout, Input
@@ -59,7 +60,7 @@ print(np.max(f_ds), np.min(f_ds))
 # Hyperparameters 설정값 지정
 
 # gan에 입력되는 noise에 대한 dimension
-NOISE_DIM = 500
+NOISE_DIM = 10
 
 # adam optimizer 정의, learning_rate = 0.0002, beta_1로 줍니다.
 # Vanilla Gan과 DCGAN에서 이렇게 셋팅을 해주는데
@@ -233,10 +234,10 @@ def visualize_training(epoch, d_losses, g_losses):
 # 학습
 
 # 배치사이즈와 에폭 지정
-BATCH_SIZE = 100
+BATCH_SIZE = 30
 EPOCHS= 50
 
-filename = 'b100_e50_n500'
+filename = 'b30_e50_n10'
 
 # discriminator와 gan 모델의 loss 측정을 위한 list
 d_losses = []
