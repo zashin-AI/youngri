@@ -30,10 +30,10 @@ print(f_lb.shape)
 
 total_epoch = 10000
 # batch_size = 100
-batch_size = 2000
+batch_size = 1000
 learning_rate = 0.0002
 # 신경망 레이어 구성 옵션
-n_hidden = 3000
+n_hidden = 1000
 n_input = 128*173
 n_noise = 22144  # 생성기의 입력값으로 사용할 노이즈의 크기
 
@@ -161,22 +161,22 @@ for epoch in range(total_epoch):
     # ---------------------------------------------------------------------------
     # 학습이 되어가는 모습을 보기 위해 주기적으로 이미지를 생성하여 저장
 
-    if epoch == 0 or (epoch + 1) % 10 == 0:
+    if epoch == 0 or (epoch + 1) % 20 == 0:
         sample_size = 10
         noise = get_noise(sample_size, n_noise)
         samples = sess.run(G, feed_dict={Z: noise})
 
         fig, ax = plt.subplots(1, sample_size, figsize=(sample_size, 1))
 
-        filename = 'me_bach2000_noise_22144_nhidden3000_epoch10000'
+        filename = 'me_bach1000_noise1000'
         for i in range(sample_size):
             ax[i].set_axis_off()
             ax[i].imshow(np.reshape(samples[i], (128, 173)))
 
-        plt.savefig('C:/nmb/gan/sample/'+ filename + '_{}.png'.format(str(epoch).zfill(5)), bbox_inches='tight')
+        plt.savefig('C:/nmb/gan/sample/listenlistenicantlisten/'+ filename + '_{}.png'.format(str(epoch).zfill(5)), bbox_inches='tight')
         plt.close(fig)
 
-        np.save('C:/nmb/gan/npy/'+ filename + '_total{}.npy'.format(str(epoch).zfill(5)), arr=samples)
+        np.save('C:/nmb/gan/npy/listenlistenicantlisten/'+ filename + '_total{}.npy'.format(str(epoch).zfill(5)), arr=samples)
 
 print('최적화 완료!')
 
