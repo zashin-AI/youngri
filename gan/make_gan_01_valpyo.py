@@ -1,11 +1,14 @@
 # gan 직접 만들어보기
 # https://github.com/golbin/TensorFlow-Tutorials/blob/master/09%20-%20GAN/01%20-%20GAN.py
-# 튜닝중
+# 원본 >> 02로 가서 작업함
+
+# 발표용 자료 만들 파일
 
 # 1점대로 돌리기
 import tensorflow.compat.v1 as tf
 tf.compat.v1.disable_eager_execution()
-
+import tensorflow.compat.v1.keras
+from keras.models import Model
 # import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,23 +18,22 @@ fm_lb = np.load('C:/nmb/nmb_data/npy/1s_2m_total_fm_label.npy')
 f_ds = fm_ds[:9600]
 f_lb = fm_lb[:9600]
 
-f_ds = f_ds.reshape(f_ds.shape[0], f_ds.shape[1]*f_ds.shape[2])
+f_ds = f_ds.reshape(f_ds.shape[0], f_ds.shape[1], f_ds.shape[2], 1)
 print(f_ds.shape)
 print(f_lb.shape)
-# (9600, 22144)
+# (9600, 128, 173, 1)
 # (9600,)
-
 
 # ---------------------------------------------------------------------------
 # 옵션 설정
 
-total_epoch = 1000
+total_epoch = 100
 batch_size = 100
 learning_rate = 0.0002
 # 신경망 레이어 구성 옵션
 n_hidden = 256
-n_input = 128 * 173
-n_noise = 10000  # 생성기의 입력값으로 사용할 노이즈의 크기
+n_input = 28 * 28
+n_noise = 128  # 생성기의 입력값으로 사용할 노이즈의 크기
 
 # ---------------------------------------------------------------------------
 # 신경망 모델 구성
@@ -40,7 +42,6 @@ n_noise = 10000  # 생성기의 입력값으로 사용할 노이즈의 크기
 X = tf.placeholder(tf.float32, [None, n_input])
 # 노이즈 Z를 입력값으로 사용합니다.
 Z = tf.placeholder(tf.float32, [None, n_noise])
-# placeholder(dtype: 데이터 타입, shape=None:쉐잎, name=None:이름 지정)
 
 # 생성기 신경망에 사용하는 변수들입니다.
 G_W1 = tf.Variable(tf.random_normal([n_noise, n_hidden], stddev=0.01))
@@ -64,6 +65,8 @@ def generator(noise_z):
 
     return output
 
+model = generator(Z)
+model.summary()
 
 # 판별기(D) 신경망을 구성합니다.
 def discriminator(inputs):
@@ -80,12 +83,19 @@ def get_noise(batch_size, n_noise):
     return np.random.normal(size=(batch_size, n_noise))
 
 
+
+'''
 # 노이즈를 이용해 랜덤한 이미지를 생성합니다.
 G = generator(Z)
+
+
 # 노이즈를 이용해 생성한 이미지가 진짜 이미지인지 판별한 값을 구합니다.
 D_gene = discriminator(G)
+
+
 # 진짜 이미지를 이용해 판별한 값을 구합니다.
 D_real = discriminator(X)
+
 
 # 논문에 따르면, GAN 모델의 최적화는 loss_G 와 loss_D 를 최대화 하는 것 입니다.
 # 다만 loss_D와 loss_G는 서로 연관관계가 있기 때문에 두 개의 손실값이 항상 같이 증가하는 경향을 보이지는 않을 것 입니다.
@@ -121,15 +131,14 @@ train_G = tf.train.AdamOptimizer(learning_rate).minimize(-loss_G,
 # next_batch 정의
 def next_batch(num, data, labels):
     
-    '''
-    Return a total of `num` random samples and labels. 
-    '''
+    # Return a total of `num` random samples and labels. 
+    
     idx = np.arange(0 , len(data))
     np.random.shuffle(idx)
     idx = idx[:num]
     data_shuffle = data[idx]
     labels_shuffle = labels[idx]
-    labels_shuffle = np.asarray(labels_shuffle.reshape(len(labels_shuffle), 1))
+    labels_shuffle = np.asarray(labels_shuffle.values.reshape(len(labels_shuffle), 1))
 
     return data_shuffle, labels_shuffle
 
@@ -139,10 +148,14 @@ sess.run(tf.global_variables_initializer())
 
 total_batch = int(9600/batch_size)
 loss_val_D, loss_val_G = 0, 0
+'''
 
+
+
+'''
 for epoch in range(total_epoch):
     for i in range(total_batch):
-        batch_xs, batch_ys = next_batch(num = batch_size, data = f_ds, labels = f_lb)
+        batch_xs, batch_ys = next_batch(batch_size, f_ds, f_lb)
         noise = get_noise(batch_size, n_noise)
 
         # 판별기와 생성기 신경망을 각각 학습시킵니다.
@@ -157,7 +170,6 @@ for epoch in range(total_epoch):
 
     # ---------------------------------------------------------------------------
     # 학습이 되어가는 모습을 보기 위해 주기적으로 이미지를 생성하여 저장
-
     if epoch == 0 or (epoch + 1) % 10 == 0:
         sample_size = 10
         noise = get_noise(sample_size, n_noise)
@@ -167,14 +179,11 @@ for epoch in range(total_epoch):
 
         for i in range(sample_size):
             ax[i].set_axis_off()
-            ax[i].imshow(np.reshape(samples[i], (128, 173)))
+            ax[i].imshow(np.reshape(samples[i], (28, 28)))
 
-        plt.savefig('C:/nmb/gan/sample/{}.png'.format(str(epoch).zfill(5)), bbox_inches='tight')
+        plt.savefig('samples/{}.png'.format(str(epoch).zfill(3)), bbox_inches='tight')
         plt.close(fig)
-
-        np.save('C:/nmb/gan/npy/total_{}.npy'.format(str(epoch).zfill(5)), arr=samples)
 
 print('최적화 완료!')
 
-# --------------------------------------------------------------
-# Epoch: 0099 D loss: -2.307e-05 G loss: -10.68
+'''
