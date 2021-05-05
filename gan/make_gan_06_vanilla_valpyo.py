@@ -27,7 +27,7 @@ print(f_ds.shape)
 print(np.max(f_ds), np.min(f_ds))
 # 3.8146973e-06 -80.0
 
-from sklearn.preprocessing import MaxAbsScaler, StandardScaler
+from sklearn.preprocessing import MaxAbsScaler, MinMaxScaler, StandardScaler, RobustScaler
 scaler1 = StandardScaler()
 scaler1.fit(f_ds)
 f_ds = scaler1.transform(f_ds)
@@ -36,10 +36,10 @@ scaler2 = MaxAbsScaler()
 scaler2.fit(f_ds)
 f_ds = scaler2.transform(f_ds)
 
-# 이 값이 -1 ~ 1 사이에 있는지 확인
+# 이 값이 -1 ~ 1 사아에 있는지 확인
 print(np.max(f_ds), np.min(f_ds))
 # 1.0 -0.9439434
-# 최대한 비슷하게 맞춰줌
+# 비슷하게 맞춰 줌!
 
 # 기록용---------------------------------
 # MaxAbsScaler
@@ -59,7 +59,7 @@ print(np.max(f_ds), np.min(f_ds))
 # Hyperparameters 설정값 지정
 
 # gan에 입력되는 noise에 대한 dimension
-NOISE_DIM = 100
+NOISE_DIM = 500
 
 # adam optimizer 정의, learning_rate = 0.0002, beta_1로 줍니다.
 # Vanilla Gan과 DCGAN에서 이렇게 셋팅을 해주는데
@@ -82,32 +82,33 @@ generator = Sequential([
 generator.summary()
 # Model: "sequential"
 # _________________________________________________________________
-# Layer (type)                 Output Shape              Param #   
+# Layer (type)                 Output Shape              Param #
 # =================================================================
-# dense (Dense)                (None, 256)               25856     
+# dense (Dense)                (None, 256)               128256
 # _________________________________________________________________
 # leaky_re_lu (LeakyReLU)      (None, 256)               0
 # _________________________________________________________________
-# dense_1 (Dense)              (None, 512)               131584    
+# dense_1 (Dense)              (None, 512)               131584
 # _________________________________________________________________
 # leaky_re_lu_1 (LeakyReLU)    (None, 512)               0
 # _________________________________________________________________
-# dense_2 (Dense)              (None, 1024)              525312    
+# dense_2 (Dense)              (None, 1024)              525312
 # _________________________________________________________________
 # leaky_re_lu_2 (LeakyReLU)    (None, 1024)              0
 # _________________________________________________________________
-# dense_3 (Dense)              (None, 22144)             22697600  
+# dense_3 (Dense)              (None, 22144)             22697600
 # =================================================================
-# Total params: 23,380,352
-# Trainable params: 23,380,352
+# Total params: 23,482,752
+# Trainable params: 23,482,752
 # Non-trainable params: 0
 # _________________________________________________________________
 
 # ------------------------------------------------------------------------
 # Discriminator 판별자 함수 정의
+
 discriminator = Sequential([
-    Dense(1024, input_shape=(22144,),
-    kernel_initializer=RandomNormal(stddev=0.02)),
+    Dense(1024, input_shape=(22144,), kernel_initializer=RandomNormal(stddev=0.02)),
+    # 데이터 쉐잎과 맞춰줌(22144)
     LeakyReLU(0.2), 
     Dropout(0.3), 
     Dense(512),
@@ -153,8 +154,6 @@ discriminator.summary()
 # 반드시 컴파일 해주어야 함
 discriminator.compile(loss='binary_crossentropy', optimizer=adam)
 
-
-
 # ------------------------------------------------------------------------
 # Gan 모델을 만들자
 # generator와 discriminator를 연결
@@ -183,20 +182,6 @@ gan.summary()
 # Non-trainable params: 23,332,865
 # _________________________________________________________________
 
-# Model: "functional_1"
-# _________________________________________________________________
-# Layer (type)                 Output Shape              Param #
-# =================================================================
-# input_1 (InputLayer)         [(None, 100)]             0
-# _________________________________________________________________
-# sequential (Sequential)      (None, 22144)             23380352
-# _________________________________________________________________
-# sequential_1 (Sequential)    (None, 1)                 23332865
-# =================================================================
-# Total params: 46,713,217
-# Trainable params: 23,380,352
-# Non-trainable params: 23,332,865
-# _________________________________________________________________
 # compile
 gan.compile(loss='binary_crossentropy', optimizer=adam)
 
@@ -274,8 +259,7 @@ for epoch in range(1, EPOCHS + 1):
         
         # Gan에 학습할 Y 데이터 정의
         y_dis = np.zeros(2 * BATCH_SIZE)
-        y_dis[:BATCH_SIZE] = 0.9                                                # 반(진짜)에는 0.9, 나머지 반(위조)에는 0     
-                                                                                # 왜 0.9인가? https://kakalabblog.wordpress.com/2017/07/27/gan-tutorial-2016/
+        y_dis[:BATCH_SIZE] = 0.9    # 반(진짜)에는 0.9, 나머지 반(위조)에는 1     # 왜 0.9인가? https://kakalabblog.wordpress.com/2017/07/27/gan-tutorial-2016/
                                                                                 # One-sided label smoothing : 진짜(1.0)에 가까운 0.9를 줌으로 D의 극심한 추정을 막는다.
         
         # Discriminator 훈련                                                    # discriminator 먼저 학습
@@ -286,7 +270,7 @@ for epoch in range(1, EPOCHS + 1):
         noise = np.random.uniform(-1, 1, size=[BATCH_SIZE, NOISE_DIM])
         y_gan = np.ones(BATCH_SIZE)                                             # 일부러 라벨링 1(진짜)로 들어감, D가 잘 판단하는지 보려고
         
-        # Discriminator의 판별 학습을 방지
+        # Discriminator의 판별 학습을 방지합니다
         discriminator.trainable = False                                         # D에 역전파 돌아감을 방지
         g_loss = gan.train_on_batch(noise, y_gan)                               # 위에서 갱신 된 D와 G를 이어준 gan 모델을 학습
         
@@ -300,4 +284,3 @@ for epoch in range(1, EPOCHS + 1):
 end = datetime.now()
 time = end - start
 print("작업 시간 : " , time)  
-
