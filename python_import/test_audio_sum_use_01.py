@@ -19,8 +19,13 @@ import_test()
 # out_dir(wav파일을 합쳐서 저장할 경로+파일명까지) = "C:/nmb/nmb_data/combine_test/F3_sum.wav"
 
 # 1) wav일 때
+<<<<<<< HEAD:python_import/test_audio_sum_use_01.py
 path_wav = 'C:/nmb/gan_0504/audio'
 path_out = 'C:/nmb/gan_0504/audio/b96_e10000_n100_total10000_sum.wav'
+=======
+path_wav = 'C:/nmb/gan_0504/audio/b100_e5000_n100_male'
+path_out = 'C:/nmb/gan_0504/audio/b100_e5000_n100_male_total05000_sum.wav'
+>>>>>>> 27a2e9746f969d30ff34658f0932877f900b077f:data/sum/test_audio_sum_use_01.py
 voice_sum(form='wav', audio_dir=path_wav, save_dir=None, out_dir=path_out)
 # 잘 되는 것 확인!
 
