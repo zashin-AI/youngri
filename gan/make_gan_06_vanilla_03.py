@@ -17,10 +17,12 @@ from datetime import datetime
 # 데이터 불러오기
 fm_ds = np.load('C:/nmb/nmb_data/npy/1s_2m_total_fm_data.npy')
 f_ds = fm_ds[:9600]
+print(f_ds.shape)
 
 f_ds = f_ds.reshape(f_ds.shape[0], f_ds.shape[1]*f_ds.shape[2])
 print(f_ds.shape)
 # (9600, 22144)
+'''
 # ------------------------------------------------------------------------
 # Normalize
 # generator 마지막에 activation이 tanh.
@@ -291,3 +293,4 @@ print("작업 시간 : " , time)
 # b100_e500_n100
 # epoch: 500, Discriminator Loss: 0.4753670043945312, Generator Loss: 1.7656388388872146
 # 작업 시간 :  0:57:24.956122
+'''

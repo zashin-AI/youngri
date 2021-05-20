@@ -119,8 +119,8 @@ def download():
                     audio_copy = copy.deepcopy(audio_copy)
                     for num in range(3):
                         audio_copy = audio_copy.append(copy.deepcopy(audio_copy), crossfade=0)
-                    audio_copy.export(folder_path + '/' + str(i) + '_cunks_over_5s.wav', format = 'wav')
-                    y_copy, sample_rate = librosa.load(folder_path + '/' + str(i) + '_cunks_over_5s.wav')
+                    audio_copy.export(folder_path + '/' + str(i) + '_chunks_over_5s.wav', format = 'wav')
+                    y_copy, sample_rate = librosa.load(folder_path + '/' + str(i) + '_chunks_over_5s.wav')
                     y_copy = y_copy[:22050*5]
                     speaker = predict_speaker(y_copy, sample_rate)
                     speaker_stt.append(str(speaker))
