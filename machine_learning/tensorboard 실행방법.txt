@@ -1,0 +1,8 @@
+cd \
+cd study
+cd graph
+dir/w
+tensorboard --logdir=.
+
+웹을 키고
+http://127.0.0.1:6006
