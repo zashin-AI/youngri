@@ -6,6 +6,7 @@ import librosa
 import pickle
 import warnings
 from tensorflow.python.framework import device
+from xgboost.core import Booster
 warnings.filterwarnings('ignore')
 
 from xgboost import XGBClassifier
@@ -27,27 +28,32 @@ print(x.shape) # (4536, 110336)
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, train_size = 0.8, random_state = 23
 )
-print(x_train.shape)    # (4082, 110336)
-print(x_test.shape)     # (454, 110336)
-print(y_train.shape)    # (4082)
-print(y_test.shape)     # (454)
+print(x_train.shape)    # (3628, 110336)
+print(x_test.shape)     # (908, 110336)
+print(y_train.shape)    # (3628)
+print(y_test.shape)     # (908)
 
-# scaler
-# scaler = MinMaxScaler()
 # scaler = StandardScaler()
-# scaler.fit(x_train)
-# x_train = scaler.transform(x_train)
-# x_test = scaler.transform(x_test)
+scaler = MinMaxScaler()
+scaler.fit(x_train)
+x_train = scaler.transform(x_train)
+x_test = scaler.transform(x_test)
 
 # 모델 구성 및 훈련
-model = XGBClassifier()
+model = XGBClassifier(  
+    learning_rate = 0.3,          # default : 0.3
+    objective="binary:logistic",  # default : "binary:logistic" // "reg:squarederror"
+    booster = 'gbtree',
+    tree_method = 'gpu_hist',
+ )
+
 model.fit(x_train, y_train)
 
 # 가중치 저장
 pickle.dump(
     model,
     open(
-        'c:/data/modelcheckpoint/project_xgb_default.data', 'wb')
+        'c:/data/modelcheckpoint/project_xgb_03.data', 'wb')
     )
 
 # 모델 평가
@@ -57,8 +63,8 @@ y_pred = model.predict(x_test)
 acc_score = accuracy_score(y_test, y_pred)
 log_loss = log_loss(y_test, y_pred)
 
-print('acc : ', acc_score)
-print('loss : ', log_loss)
+print('acc : ', format(acc_score, '.4f'))
+print('loss : ', format(log_loss, '.4f'))
 
 # 모델 예측
 pred_list = ['c:/nmb/nmb_data/predict/F', 'c:/nmb/nmb_data/predict/M']
@@ -81,7 +87,7 @@ for pred_pathAudio in pred_list:
         y_mel = librosa.amplitude_to_db(mels, ref = np.max)
         y_mel = y_mel.reshape(1, y_mel.shape[0] * y_mel.shape[1])
 
-        # y_mel = scaler.transform(y_mel)
+        y_mel = scaler.transform(y_mel)
 
         y_pred = model.predict(y_mel)
 
@@ -96,15 +102,17 @@ print('43개의 여자 목소리 중 ' + str(count_f) + ' 개 정답')
 print('43개의 남자 목소리 중 ' + str(count_m) + ' 개 정답')
 print('time : ', datetime.datetime.now() - str_time)
 
-# acc :  0.9196035242290749
-# loss :  2.7768258404637742
-# 43개의 여자 목소리 중 38 개 정답
-# 43개의 남자 목소리 중 40 개 정답
-# time :  0:11:17.955580
+# 0.9 / 2.7 / 38 / 40
 
+# project_xgb_03
+# acc :  0.920704845814978
+# loss :  2.7387857792415593
+# 43개의 여자 목소리 중 38 개 정답
+# 43개의 남자 목소리 중 39 개 정답
+# time :  0:02:12.091531
 
 # -----------------------------
-# 1) GPU로 돌아가게 하기
-# 2) 학원컴을 돌리기
-# 3) 그래프 그리기 (수업때 한 거)
-# 4) validation loss, acc 출력하기
+# 1) GPU로 돌아가게 하기 ㅇㅇ
+# 2) 학원컴을 돌리기 ㄴㄴ
+# 3) 그래프 그리기 (수업때 한 거) ㅇㅇ
+# 4) validation loss, acc 출력하기 ㄴㄴ
