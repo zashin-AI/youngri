@@ -77,7 +77,7 @@ print('score : ', modelscores)
 pickle.dump(
     model,
     open(
-        'c:/data/modelcheckpoint/project_xgb_04.data', 'wb')
+        'c:/data/modelcheckpoint/project_xgb_05.data', 'wb')
     )
 
 # 모델 평가

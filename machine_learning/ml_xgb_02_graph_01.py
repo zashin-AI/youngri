@@ -1,5 +1,7 @@
 # 현민이가 한 방법으로 그래프 그리기 연습
 # https://github.com/zashin-AI/hyunmin/blob/main/Speaker_Recognition/denoise_SVC/svc_04_%20visual.py
+# 이름 project_xgb_04 으로 지정함
+
 
 # 필요 라이브러리 임포트
 import os
@@ -56,7 +58,7 @@ model.fit(x_train, y_train, verbose=1)
 pickle.dump(
     model,
     open(
-        'c:/data/modelcheckpoint/project_xgb_03.data', 'wb')
+        'c:/data/modelcheckpoint/project_xgb_04.data', 'wb')
     )
 
 # -------------------------------------------------------------
@@ -65,32 +67,40 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import learning_curve, ShuffleSplit
 plt.figure(figsize=(10,6))
 
-# accuracy
-train_sizes, train_scores_model, test_scores_model = \
-    learning_curve(model, x_train[:100], y_train[:100], train_sizes=np.linspace(0.1, 1.0, 10),
-                   scoring="accuracy", cv=7, shuffle=True, random_state=42, verbose=1)
+# # accuracy
+# # train_sizes, train_scores_model, test_scores_model = \
+# #     learning_curve(model, x_train[:100], y_train[:100], train_sizes=np.linspace(0.1, 1.0, 10),
+# #                    scoring="accuracy", cv=7, shuffle=True, random_state=23, verbose=1)
+# train_sizes, train_scores_model, test_scores_model = \
+#     learning_curve(model, x_train, y_train, train_sizes=np.linspace(0.1, 1.0, 10),
+#                    scoring="accuracy", shuffle=True, random_state=23, verbose=1)
 
-train_scores_mean = np.mean(train_scores_model, axis=1)
-test_scores_mean = np.mean(test_scores_model, axis=1)
 
-# accuracy
-plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
-                 label="Training score")
-plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
-                 label="validation score")
+# train_scores_mean = np.mean(train_scores_model, axis=1)
+# test_scores_mean = np.mean(test_scores_model, axis=1)
 
+# # accuracy
+# plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+#                  label="Training score")
+# plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+#                  label="validation score")
+# -----------------------------
 # log loss
+# train_sizes, train_scores_model, test_scores_model = \
+#     learning_curve(model, x_train[:100], y_train[:100], train_sizes=np.linspace(0.1, 1.0, 10),
+#                    scoring='neg_log_loss', cv=8, shuffle=True, random_state=23)
 train_sizes, train_scores_model, test_scores_model = \
-    learning_curve(model, x_train[:100], y_train[:100], train_sizes=np.linspace(0.1, 1.0, 10),
-                   scoring='neg_log_loss', cv=8, shuffle=True, random_state=42)
+    learning_curve(model, x_train, y_train, train_sizes=np.linspace(0.1, 1.0, 10),
+                   scoring='neg_log_loss', shuffle=True, random_state=23)
 
 # log loss
 plt.plot(train_sizes, -train_scores_model.mean(1), 'o-', color="r", label="log_loss")
 plt.plot(train_sizes, -test_scores_model.mean(1), 'o-', color="g", label="val log_loss")
+# -----------------------------
 
 plt.xlabel("Train size")
-# plt.ylabel("Log loss")
-plt.ylabel("Accuracy")
+plt.ylabel("Log loss")
+# plt.ylabel("Accuracy")
 plt.title('XGBclassifier')
 plt.legend(loc="best")
 
@@ -151,6 +161,9 @@ print('time : ', datetime.datetime.now() - str_time)
 # 43개의 여자 목소리 중 38 개 정답
 # 43개의 남자 목소리 중 39 개 정답
 # time :  0:02:12.091531
+
+# 그래프 그리려고 돌릴 때
+# time :  0:59:16.869496 ~ 1시간 10분
 
 # -----------------------------
 # 1) GPU로 돌아가게 하기 ㅇㅇ
