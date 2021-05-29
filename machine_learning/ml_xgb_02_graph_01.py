@@ -47,7 +47,7 @@ model = XGBClassifier(
     learning_rate = 0.3,          # default : 0.3
     objective="binary:logistic",  # default : "binary:logistic" // "reg:squarederror"
     booster = 'gbtree',
-    tree_method = 'gpu_hist',
+    # tree_method = 'gpu_hist',
  )
 
 model.fit(x_train, y_train, verbose=1)
