@@ -1,3 +1,6 @@
+# 가장 좋았던 성능 그대로 나오는지 확인하려고 만든 파일
+# 가중치 저장이름 : project_catboost_01
+
 import os
 import numpy as np
 import datetime
@@ -25,16 +28,22 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, train_size = 0.8, random_state = 23
 )
 
-# scaler = MinMaxScaler()
-scaler = StandardScaler()
-scaler.fit(x_train)
-x_train = scaler.transform(x_train)
-x_test = scaler.transform(x_test)
+# # scaler = MinMaxScaler()
+# scaler = StandardScaler()
+# scaler.fit(x_train)
+# x_train = scaler.transform(x_train)
+# x_test = scaler.transform(x_test)
 
 # model
 model = CatBoostClassifier(
-    # learning_rate=0.01,
-    iterations=1000
+    learning_rate=0.1
+    , iterations=500
+    # , task_type="GPU"
+    # # bad allocation 떠서 넣는 옵션
+    , boosting_type='Plain'     # 그래도 에러
+    , gpu_ram_part = 0.5        # 디폴트 0.95   # 0.7도 에러    # 0.5 일떄 돌아감
+    , gpu_cat_features_storage = 'CpuPinnedMemory'  # 그래도 에러
+    , depth = 5      # 디폴트 6   # 5로 하니까 돌아감
 )
 model.fit(x_train, y_train)
 
@@ -42,7 +51,7 @@ model.fit(x_train, y_train)
 pickle.dump(
     model,
     open(
-        'c:/data/modelcheckpoint/project_catboost__iter_1000_ss.data', 'wb')
+        'c:/data/modelcheckpoint/project_catboost_01.data', 'wb')
     )
 
 y_pred = model.predict(x_test)
@@ -74,7 +83,7 @@ for pred in pred_list:
         y_mels = librosa.amplitude_to_db(mels, ref = np.max)
         y_mels = y_mels.reshape(1, y_mels.shape[0] * y_mels.shape[1])
 
-        y_mels = scaler.transform(y_mels)
+        # y_mels = scaler.transform(y_mels)
 
         y_pred = model.predict(y_mels)
 
@@ -95,3 +104,10 @@ print('time : ', datetime.datetime.now() - str_time)
 # 43개의 목소리 중 여자는 38 개 입니다.
 # 43개의 목소리 중 남자는 39 개 입니다.
 # time :  1:16:38.881588
+
+# 05-29 / 영리가 새로 돌림, 시간 얼마 안걸렸는데 그 전 사람 확인 요망
+# acc :  0.9251101321585903
+# loss :  2.58662905680834
+# 43개의 목소리 중 여자는 38 개 입니다.
+# 43개의 목소리 중 남자는 39 개 입니다.
+# time :  0:28:23.218612
