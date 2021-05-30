@@ -53,6 +53,8 @@ model = XGBClassifier(
  )
 
 model.fit(x_train, y_train, verbose=1)
+# acc :  0.9207
+# loss :  2.7388
 
 # 가중치 저장
 pickle.dump(
