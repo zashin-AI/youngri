@@ -67,26 +67,20 @@ def predict_speaker(y, sr):
 app = Flask(__name__)
 
 
-# 첫 화면 (파일 업로드)
 @app.route('/')
 def upload_file():
     return render_template('upload.html')
 
-# 업로드 후에 출력 되는 화면 (추론)
 @app.route('/uploadFile', methods = ['POST'])
 def download():
-    # 파일이 업로드 되면 실시 할 과정
     if request.method == 'POST':
         f = request.files['file']
         if not f: return render_template('upload.html')
-
         f_path = os.path.splitext(str(f))
         f_path = os.path.split(f_path[0])
-
         normalizedsound = normalized_sound(f)
         audio_chunks = split_slience(normalizedsound)
         save_script = ''
-
         female_list = list()
         male_list = list()
         for i, chunk in enumerate(audio_chunks):
@@ -135,7 +129,6 @@ def download():
                 ff.writelines('\n\n'.join(female_list))
                 fm.writelines('\n\n'.join(male_list))
 
-                # chunk.wav 파일 삭제하기
                 if os.path.isfile(out_file) : os.remove(out_file)
                 if os.path.isfile(out_file_over5s) : os.remove(out_file_over5s)
 
@@ -188,7 +181,8 @@ def read_text():
 
 @app.route('/readAll')
 def read_all():
-    f = open('C:/nmb/nada/web/static/test.txt', 'r', encoding='utf-8')
+    f = open('C:/nmb/nada/web/static/test.txt',
+              'r', encoding='utf-8')
     return "</br>".join(f.readlines())
 
 @app.route('/readFemale')
