@@ -91,7 +91,11 @@ def download():
         len_audio_chunks = len(audio_chunks)
 
         save_script = ''
+        save_female = ''
+        save_male = ''
 
+        female_list = list()
+        male_list = list()
         for i, chunk in enumerate(audio_chunks):
             speaker_stt = list()
             out_file = folder_path + '/' + str(i) + '_chunk.wav'
@@ -99,8 +103,13 @@ def download():
             aaa = sr.AudioFile(out_file)
 
             try:
+                f = open('c:/nmb/nada/web/static/test.txt', 'wt', encoding='utf-8')
+                ff = open('c:/nmb/nada/web/static/test_female.txt', 'wt', encoding='utf-8')
+                fm = open('c:/nmb/nada/web/static/test_male.txt', 'wt', encoding='utf-8')
+
                 stt_text = STT(aaa)
                 speaker_stt.append(str(stt_text))
+                
 
                 y, sample_rate = librosa.load(out_file, sr = 22050)
 
@@ -108,7 +117,14 @@ def download():
                     y = y[:22050*5]
                     speaker = predict_speaker(y, sample_rate)
                     speaker_stt.append(str(speaker))
-                    print(speaker_stt[1], " : ", speaker_stt[0])
+                    # print(speaker_stt[1], " : ", speaker_stt[0])
+                    if speaker == '여자':
+                        female_list.append(str(speaker_stt[0]))
+                        print(speaker_stt)
+                    else:
+                        male_list.append(str(speaker_stt[0]))
+                        print(speaker_stt)
+
 
                 else:
                     audio_copy = AudioSegment.from_wav(out_file)
@@ -120,13 +136,28 @@ def download():
                     y_copy = y_copy[:22050*5]
                     speaker = predict_speaker(y_copy, sample_rate)
                     speaker_stt.append(str(speaker))
-                    print(speaker_stt[1] + " : " + speaker_stt[0])
+                    # print(speaker_stt[1] + " : " + speaker_stt[0])
+                    if speaker == '여자':
+                        female_list.append(str(speaker_stt[0]))
+                        print(speaker_stt)
+                    else:
+                        male_list.append(str(speaker_stt[0]))
+                        print(speaker_stt)
+
+                print('done!')
 
                 save_script += speaker_stt[1] + " : " + speaker_stt[0] + '\n\n'
-                with open('c:/nmb/nada/web/static/test.txt', 'wt', encoding='utf-8') as f: f.writelines(save_script)
+
+                f.writelines(save_script)
+                ff.writelines('\n\n'.join(female_list))
+                fm.writelines('\n\n'.join(male_list))
 
             except:
                 pass
+        f.close()
+        ff.close()
+        fm.close()
+
         return render_template('/download.html')
     
 
@@ -144,9 +175,22 @@ def download_file():
 # 추론 된 파일 읽기
 @app.route('/read')
 def read_text():
+    return render_template('/read_copy.html')
+
+@app.route('/readAll')
+def read_all():
     f = open('C:/nmb/nada/web/static/test.txt', 'r', encoding='utf-8')
     return "</br>".join(f.readlines())
 
+@app.route('/readFemale')
+def read_female():
+    f = open('c:/nmb/nada/web/static/test_female.txt', 'r', encoding='utf-8')
+    return "</br>".join(f.readlines())
+
+@app.route('/readMale')
+def read_male():
+    f = open('c:/nmb/nada/web/static/test_male.txt', 'r', encoding='utf-8')
+    return "</br>".join(f.readlines())
 
 if __name__ == '__main__':
     model = load_model('c:/data/modelcheckpoint/mobilenet_rmsprop_1.h5')

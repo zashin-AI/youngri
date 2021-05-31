@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Read Page</title>
+    </head>
+    <body>
+        <form>
+            <select name = "select_read_file">
+                <option value = "{{url_for('read_all')}}", selected>All
+                    <!-- <a href = "{{url_for('read_all')}}"></a> -->
+                </option>
+                <option value = "{{url_for('read_female')}}">Female
+                    <!-- <a href = "{{url_for('read_female')}}"></a> -->
+                </option>
+                <option value = "{{url_for('read_male')}}">Male
+                    <!-- <a href = "{{url_for('read_male')}}"></a> -->
+                </option>
+            </select>
+            <input type = "submit" name = "name" value = "선택">
+        </form>
+    </body>
+</html>
