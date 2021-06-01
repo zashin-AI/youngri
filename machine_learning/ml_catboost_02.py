@@ -44,7 +44,7 @@ model = CatBoostClassifier(
     , boosting_type='Plain'     # 그래도 에러
     , gpu_ram_part = 0.5        # 디폴트 0.95   # 0.7도 에러    # 0.5 일떄 돌아감
     , gpu_cat_features_storage = 'CpuPinnedMemory'  # 그래도 에러
-    , depth = 3      # 디폴트 6   # 5로 하니까 돌아감
+    , depth = 4      # 디폴트 6   # 5로 하니까 돌아감
 )
 
 # model
