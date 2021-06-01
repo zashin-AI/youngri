@@ -44,7 +44,8 @@ model = CatBoostClassifier(
     , boosting_type='Plain'     # 그래도 에러
     , gpu_ram_part = 0.5        # 디폴트 0.95   # 0.7도 에러    # 0.5 일떄 돌아감
     , gpu_cat_features_storage = 'CpuPinnedMemory'  # 그래도 에러
-    , depth = 5      # 디폴트 6   # 5로 하니까 돌아감
+    , depth = 3      # 디폴트 6   # 5로 하니까 돌아감
+)
 
 # model
 model = CatBoostClassifier(
@@ -57,9 +58,8 @@ model.fit(x_train, y_train)
 pickle.dump(
     model,
     open(
-        'c:/data/modelcheckpoint/project_catboost_01.data', 'wb')
-        'c:/data/modelcheckpoint/project_catboost__iter_1000_ss.data', 'wb')
-    )
+        'c:/data/modelcheckpoint/project_catboost_03.data', 'wb'
+    ))
 
 y_pred = model.predict(x_test)
 
@@ -119,3 +119,6 @@ print('time : ', datetime.datetime.now() - str_time)
 # 43개의 목소리 중 남자는 39 개 입니다.
 # time :  0:28:23.218612
 # time :  1:16:38.881588
+
+# project_catboost_03
+# depth 4로 돌리는 중
