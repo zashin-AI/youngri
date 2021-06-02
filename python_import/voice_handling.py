@@ -5,6 +5,8 @@ from pydub import AudioSegment
 import soundfile as sf
 import os
 from pydub.silence import split_on_silence
+import warnings
+warnings.filterwarnings('ignore')
 
 # 테스트 한번 불러서 출력하고 가져가세요~
 def import_test():
@@ -74,7 +76,6 @@ def voice_split(origin_dir, threshold, out_dir):
     audio = AudioSegment.from_file(origin_dir)
     _, w_id = os.path.split(origin_dir)
     w_id = w_id[:-4]
-    lengaudio = len(audio)
     # 임계점 설정(1s = 1000ms)
     start = 0
     threshold = threshold
@@ -98,7 +99,6 @@ def voice_split_1m(origin_dir, threshold, end_threshold, out_dir):
     audio = AudioSegment.from_file(origin_dir)
     _, w_id = os.path.split(origin_dir)
     w_id = w_id[:-4]
-    lengaudio = len(audio)
     # 임계점 설정(1s = 1000ms)
     start = 0
     threshold = threshold
