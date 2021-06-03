@@ -2,13 +2,18 @@ import librosa
 from pydub import AudioSegment
 import soundfile as sf
 import os
+<<<<<<< HEAD
 from voice_handling import import_test, voice_split, voice_split_1m
+=======
+import warnings
+warnings.filterwarnings('ignore')
+
+>>>>>>> 8c6e760c9d117ab476178ac4447b072b595e90a9
 
 def voice_split_1m(origin_dir, threshold, end_threshold, out_dir):
     audio = AudioSegment.from_file(origin_dir)
     _, w_id = os.path.split(origin_dir)
     w_id = w_id[:-4]
-    lengaudio = len(audio)
     # 임계점 설정(1s = 1000ms)
     start = 0
     threshold = threshold
