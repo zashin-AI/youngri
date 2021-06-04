@@ -1,7 +1,3 @@
-# https://teddylee777.github.io/tensorflow/vanilla-gan
-
-# 1점대로 다루기 여간 어려우니...2점대로 만들자
-
 import numpy as np
 from tensorflow.keras.layers import Dense, LeakyReLU, Dropout, Input
 from tensorflow.keras.models import Sequential, Model
@@ -40,20 +36,6 @@ f_ds = scaler2.transform(f_ds)
 print(np.max(f_ds), np.min(f_ds))
 # 1.0 -0.9439434
 # 최대한 비슷하게 맞춰줌
-
-# 기록용---------------------------------
-# MaxAbsScaler
-# 4.7683717e-08 -1.0
-
-# MinMaxScaler
-# 1.000001 0.0
-
-# StandardScaler
-# 90.21588 -1.7709243
-
-# RobustScaler
-# 72391.01 -1.3315412
-# -------------------------------------
 
 # ------------------------------------------------------------------------
 # Hyperparameters 설정값 지정
@@ -299,5 +281,4 @@ for epoch in range(1, EPOCHS + 1):
 # 시간 측정
 end = datetime.now()
 time = end - start
-print("작업 시간 : " , time)  
-
+print("작업 시간 : " , time)
