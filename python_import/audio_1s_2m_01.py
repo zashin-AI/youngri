@@ -2,9 +2,13 @@ import librosa
 from pydub import AudioSegment
 import soundfile as sf
 import os
+<<<<<<< HEAD
+from voice_handling import import_test, voice_split, voice_split_1m
+=======
 import warnings
 warnings.filterwarnings('ignore')
 
+>>>>>>> 8c6e760c9d117ab476178ac4447b072b595e90a9
 
 def voice_split_1m(origin_dir, threshold, end_threshold, out_dir):
     audio = AudioSegment.from_file(origin_dir)
@@ -31,7 +35,7 @@ def voice_split_1m(origin_dir, threshold, end_threshold, out_dir):
 origin_dir = 'D:/nmb/1,3,5,7_dataset/1s_24=120s/korea_corpus_f_split_sum/'
 threshold = (10000)  # 10초씩
 end_threshold = (1000*120)  # 2분
-out_dir = 'D:/nmb/1,3,5,7_dataset/korea_corpus_f_10s_2m/'
+out_dir = 'D:/nmb/1,3,5,7_dataset/1s_24=120s/korea_corpus_f_10s_2m/'
 
 infiles = librosa.util.find_files(origin_dir)
 
